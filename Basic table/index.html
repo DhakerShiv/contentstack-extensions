@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+<link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+table{width:100%;margin-bottom:2px;border-collapse:collapse}table,td,th{border:1px solid #cdcdcd}table td,table th{padding:10px;text-align:left}
+</style>
+<script>
+"use strict";$(document).ready(function(){var c=void 0,t=!0;function e(){var t={},n=[],e=[],i=$("#dynamicTable tr:nth-child(1) td");0!=i.length&&(i.each(function(t){0!=t&&e.push($(this).text())}),$("#dynamicTable tr").each(function(t){if(0<t){var e=[];$(this).children("td").each(function(t){0!=t&&e.push($(this).text())}),n.push(e)}}),t.columns=e,t.rows=n,c.field.setData(t))}function n(){if($(".table_row:checkbox:checked").length)return $("#removeRows").fadeIn(300);$("#removeRows").fadeOut(300)}function i(){if(400<$("body").height()&&t)return t=0,c.window.disableAutoResizing();t||(c.window.enableAutoResizing(),t=1)}$("#removeRows").hide(),$("#addRow").click(function(t){t.preventDefault(),function(){var t=$("#dynamicTable tr:first td").length,e="<td class='td_id_1' contenteditable='true'>1</td>";if(0==t)return;if(2<t)for(var n=2;n<t;n++)e+="<td class='td_id_"+n+"' contenteditable='true'>"+n+"</td>";$("#dynamicTable:last-child").append("<tr><td><div class='cs-checkbox'><label><input class='cs table_row' type='checkbox'/> <span class='lbl'></span></label></div></td>"+e+"</tr>")}(),e(),n(),i()}),$("#removeRows").click(function(t){t.preventDefault(),$(".table_row:checkbox:checked").each(function(t,e){$(this).closest("tr").remove()}),e(),n(),i()}),$("#dynamicTable").keyup(function(){e()}),$("body").on("click",".table_row",function(){n()}),ContentstackUIExtension.init().then(function(t){(c=t).window.enableAutoResizing();var e={};if(e.rows=c.field.getData().rows,e.columns=c.config.columns,!e.columns)return $("#addRow").hide(),void $("#dynamicTable").html("Please define your columns in extension's config");!function(t){if(void 0===t)return;var e=t.columns,n=t.rows;if(0==e.length)return;$("#dynamicTable").html("");var i="";i+="<tr><td></td>";for(var c=0;c<e.length;c++)i+="<td class='td_id_"+(c+1)+"'><strong>"+e[c]+"</strong></td>";i+="</tr>";for(var o=0;o<n.length;o++){i+="<tr><td><div class='cs-checkbox'><label><input class='cs table_row' type='checkbox' id=row_id_'"+(o+1)+"'/> <span class='lbl'></span></label></div></td>";for(var a=0;a<n[o].length;a++)i+="<td class='td_id_"+(a+1)+"' contenteditable='true'>"+n[o][a]+"</td>";i+="</tr>"}$("#dynamicTable").html(i)}(e)})});
+</script>
+</head>
+<body>
+<button class="btn cs-btn-success" id="addRow">Add a row</button>
+<button class="btn cs-btn-error" id="removeRows">Remove rows</button>
+<br><br>
+<table id="dynamicTable"> </table>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.js"></script>
+<link href="https://www.contentstack.com/sdks/contentstack-ui-extensions/dist/latest/ui-extension-sdk.css" rel="stylesheet" type="text/css" media="all">    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+table{width:100%;margin-bottom:2px;border-collapse:collapse}table,td,th{border:1px solid #cdcdcd}table td,table th{padding:10px;text-align:left}
+</style>
+<script>
+"use strict";$(document).ready(function(){var c=void 0,t=!0,e=300;function n(){var t={},n=[],e=[];$("#dynamicTable tr:nth-child(2) td").each(function(t){0!=t&&e.push($(this).text())}),$("#dynamicTable tr").each(function(t){if(1<t){var e=[];$(this).children("td").each(function(t){0!=t&&e.push($(this).text())}),n.push(e)}}),t.columns=e,t.rows=n,c.field.setData(t)}function d(){if($(".table_row:checkbox:checked").length)return $("#removeRows").fadeIn(e);$("#removeRows").fadeOut(e)}function a(){if($(".table_column:checkbox:checked").length)return $("#removeColumns").fadeIn(e);$("#removeColumns").fadeOut(e)}function l(){if($("#dynamicTable tr:first td").length)return $("#addRow").fadeIn(e);$("#addRow").fadeOut(e)}function i(){if(400<$("body").height()&&t)return t=!1,c.window.disableAutoResizing();t||(t=!0,c.window.enableAutoResizing())}$("#removeRows").hide(),$("#removeColumns").hide(),$("#addRow").hide(),$("#addRow").click(function(t){t.preventDefault(),function(){var t=$("#dynamicTable tr:first td").length,e="<td class='td_id_1' contenteditable='true'>1</td>";if(0==t)return;if(2<t)for(var n=2;n<t;n++)e+="<td class='td_id_"+n+"' contenteditable='true'>"+n+"</td>";$("#dynamicTable:last-child").append("<tr><td><div class='cs-checkbox'><label><input class='cs table_row' type='checkbox'/><span class='lbl'></span></label></div></td>"+e+"</tr>")}(),n(),i()}),$("#addColumn").click(function(t){t.preventDefault(),function(){var e=$("#dynamicTable tr:first td").length;if(0==e)return $("#dynamicTable:last-child").append("<tr><td></td><td class='td_id_1'><div class='cs-checkbox'><label><input class='cs table_column' type='checkbox' id='td_id_1'/><span class='lbl'></span></label></div></td></tr><tr><td></td><td class='td_id_1' contenteditable='true'><strong>1</strong></td></tr>");$("table:first tr").each(function(t){if(0==t)return $(this).append("<td class='td_id_"+e+"'><div class='cs-checkbox'><label><input class='cs table_column' type='checkbox' id='td_id_"+e+"'/><span class='lbl'></span></label></div></td>");$(this).append("<td class='td_id_"+e+"' contenteditable='true'><strong>"+e+"</strong></td>")})}(),n(),l()}),$("#removeRows").click(function(t){t.preventDefault(),$(".table_row:checkbox:checked").each(function(t,e){$(this).closest("tr").remove()}),d(),n(),i()}),$("#removeColumns").click(function(t){t.preventDefault(),$(".table_column:checkbox:checked").each(function(t,e){var n=$(this).attr("id");$("."+n).remove();var c=$("#dynamicTable tr:first td").length;1==c&&$("#dynamicTable").html("")}),a(),d(),n(),l()}),$("body").on("click",".table_row",function(){d()}),$("body").on("click",".table_column",function(){a()}),$("#dynamicTable").keyup(function(){n()}),ContentstackUIExtension.init().then(function(t){(c=t).window.enableAutoResizing(),function(t){if(void 0===t)return;var e=t.columns,n=t.rows;if(0==e.length)return;$("#dynamicTable").html("");for(var c="<tr><td></td>",d=0;d<e.length;d++)c+="<td class='td_id_"+(d+1)+"'><div class='cs-checkbox'><label><input class='cs table_column' type='checkbox' id='td_id_"+(d+1)+"'/><span class='lbl'></span></label></div></td>";c+="</tr><tr><td></td>";for(var a=0;a<e.length;a++)c+="<td class='td_id_"+(a+1)+"' contenteditable='true'><strong>"+e[a]+"</strong></td>";c+="</tr>";for(var l=0;l<n.length;l++){c+="<tr><td><div class='cs-checkbox'><label><input class='cs table_row' type='checkbox' id=row_id_'"+(l+1)+"'/> <span class='lbl'></span></label></div></td>";for(var i=0;i<n[l].length;i++)c+="<td class='td_id_"+(i+1)+"' contenteditable='true'>"+n[l][i]+"</td>";c+="</tr>"}$("#dynamicTable").html(c)}(c.field.getData())}).then(function(){l()})});
+</script>
+</head>
+<body>
+<button class="btn cs-btn-success" id="addRow">Add a row</button>
+<button class="btn cs-btn-success" id="addColumn">Add a column</button>
+<button class="btn cs-btn-error" id="removeRows">Remove rows</button>
+<button class="btn cs-btn-error" id="removeColumns">Remove columns</button>
+<br><br>
+<table id="dynamicTable"> </table>
+</body>
+</html>
